@@ -1,0 +1,27 @@
+{
+  "name": "clean-architecture-solid",
+  "version": "1.0.0",
+  "description": "Clean Architecture and SOLID with NodeJs, Typescript, TDD.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nelsonwenner/clean-tdd-ts-api.git"
+  },
+  "keywords": [
+    "clean",
+    "solid",
+    "tdd",
+    "typescript",
+    "nodejs"
+  ],
+  "author": "Nelson Wenner",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nelsonwenner/clean-tdd-ts-api/issues"
+  },
+  "homepage": "https://github.com/nelsonwenner/clean-tdd-ts-api#readme",
+  "devDependencies": {}
+}
