@@ -4,7 +4,7 @@ import {
   AddAccountModel,
   AccountModel,
   AddAccountRepository,
-} from './db-add-account-protocols';
+} from './db-add-account-contracts';
 
 interface SutTypes {
   sut: DbAddAccount;
