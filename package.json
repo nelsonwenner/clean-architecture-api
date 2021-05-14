@@ -4,6 +4,8 @@
   "description": "Clean Architecture and SOLID with NodeJs, Typescript, TDD.",
   "main": "index.js",
   "scripts": {
+    "start": "node dist/main/server.js",
+    "dev": "ts-node-dev --transpile-only --ignore-watch node_modules dist/main/server.js",
     "build": "rimraf dist && tsc -p tsconfig-build.json",
     "build:watch": "rimraf dist && tsc -p tsconfig-build.json -w",
     "test": "jest --passWithNoTests --silent --noStackTrace --runInBand",
