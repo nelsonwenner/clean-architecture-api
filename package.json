@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node dist/main/server.js",
-    "dev": "ts-node-dev --transpile-only --ignore-watch node_modules dist/main/server.js",
+    "dev": "ts-node-dev --transpile-only --ignore-watch node_modules src/main/server.ts",
     "build": "rimraf dist && tsc -p tsconfig-build.json",
     "build:watch": "rimraf dist && tsc -p tsconfig-build.json -w",
     "test": "jest --passWithNoTests --silent --noStackTrace --runInBand",
@@ -73,5 +73,8 @@
   },
   "engines": {
     "node": "12.x"
+  },
+  "_moduleAliases": {
+    "@": "dist"
   }
 }
