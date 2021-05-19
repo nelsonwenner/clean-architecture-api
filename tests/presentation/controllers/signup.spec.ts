@@ -129,7 +129,7 @@ describe('SignUp Controller', () => {
   test('Should return 400 if an invalid email is provided', async () => {
     const { sut, emailValidatorStub } = makeSut()
 
-    //modifies the behavior of a class or function in the system
+    // modifies the behavior of a class or function in the system
     jest.spyOn(emailValidatorStub, 'isValid').mockReturnValueOnce(false)
 
     const httpRequest = {
@@ -166,7 +166,7 @@ describe('SignUp Controller', () => {
   test('Should return 500 if EmailValidator throws', async () => {
     const { sut, emailValidatorStub } = makeSut()
 
-    //mocking instance
+    // mocking instance
     jest.spyOn(emailValidatorStub, 'isValid').mockImplementationOnce(() => {
       throw new Error()
     })
