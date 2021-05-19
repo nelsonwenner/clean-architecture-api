@@ -1,6 +1,6 @@
 import 'module-alias/register'
-import env from '@/main/config/env'
 import { MongoHelper } from '@/infra/db/mongodb/helpers/mongo-helper'
+import 'dotenv/config'
 
 enum ExitStatus {
   Failure = 1,
@@ -19,11 +19,13 @@ process.on('uncaughtException', (error) => {
   process.exit(ExitStatus.Failure)
 })
 
-MongoHelper.connect(env.mongoUrl)
+MongoHelper.connect(process.env.MONGO_URL)
   .then(async () => {
     const app = (await import('./config/app')).default
-    app.listen(env.port, () =>
-      console.log(`Server start with successfully on PORT ${env.port}`)
+    app.listen(process.env.SERVER_PORT, () =>
+      console.log(
+        `Server start with successfully on PORT ${process.env.SERVER_PORT}`
+      )
     )
   })
   .catch((error) => {
