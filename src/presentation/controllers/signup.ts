@@ -1,8 +1,8 @@
-import { HttpRequest, HttpResponse, Controller } from '../contracts'
-import { badRequest, serverError, ok } from '../helpers/http-helper'
-import { MissingParamError, InvalidParamError } from '../errors'
-import { AddAccount } from '../../domain/usecases/add-account'
-import { EmailValidator } from '../../validation/contracts'
+import { HttpRequest, HttpResponse, Controller } from '@/presentation/contracts'
+import { badRequest, serverError, ok } from '@/presentation/helpers/http-helper'
+import { MissingParamError, InvalidParamError } from '@/presentation/errors'
+import { AddAccount } from '@/domain/usecases/add-account'
+import { EmailValidator } from '@/validation/contracts'
 
 export class SignUpController implements Controller {
   private readonly emailValidator: EmailValidator
@@ -40,7 +40,7 @@ export class SignUpController implements Controller {
         email,
         password,
       })
-      return ok(account)
+      return ok({ id: account.id })
     } catch (error) {
       return serverError()
     }

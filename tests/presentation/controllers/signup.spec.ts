@@ -237,9 +237,6 @@ describe('SignUp Controller', () => {
     expect(httResponse.statusCode).toBe(200)
     expect(httResponse.body).toEqual({
       id: 'valid_id',
-      name: 'valid_name',
-      email: 'valid_email@gmail.com',
-      password: 'valid_password',
     })
   })
 })
