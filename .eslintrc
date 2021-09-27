@@ -8,6 +8,8 @@
     "@typescript-eslint/strict-boolean-expressions": "off",
     "@typescript-eslint/consistent-type-definitions": "off",
     "@typescript-eslint/space-before-function-paren": "off",
+    "@typescript-eslint/indent": "error",
+    "@typescript-eslint/no-floating-promises": "off",
     "@typescript-eslint/no-misused-promises": "off",
     "@typescript-eslint/no-base-to-string": "off",
     "@typescript-eslint/no-throw-literal": "off",
