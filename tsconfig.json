@@ -1,15 +1,25 @@
 {
   "compilerOptions": {
-    "outDir": "dist",
-    "module": "commonjs",
     "target": "es2020",
+    "module": "commonjs",
+    "noEmit": true,
+    "strict": false,
     "esModuleInterop": true,
+    "skipLibCheck": true,
     "sourceMap": true,
-    "rootDirs": ["src", "tests"],
-    "baseUrl": "src",
+    "rootDirs": ["src"],
+    "resolveJsonModule": true,
+    "baseUrl": "./src",
+    "outDir": "dist",
     "paths": {
-      "@/tests/*": ["../tests/*"],
-      "@/*": ["*"]
+      "@data/*": ["data/*"],
+      "@domain/*": ["domain/*"],
+      "@infra/*": ["infra/*"],
+      "@main/*": ["main/*"],
+      "@presentation/*": ["presentation/*"],
+      "@validation/*": ["validation/*"],
+      "@utils/*": ["utils/*"],
+      "@test/*": ["test/*"]
     }
   },
   "include": ["src", "tests"],
