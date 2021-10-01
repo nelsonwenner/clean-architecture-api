@@ -1,7 +1,7 @@
+import { AddAccountRepository, ExistsAccountRepository } from '@data/contracts'
+import { AddAccount } from '@domain/usecases/add-account'
 import { prisma } from '@infra/db/prisma/client'
 import { Account } from '@domain/account/account'
-import { AddAccount } from '@domain/usecases/add-account'
-import { AddAccountRepository, ExistsAccountRepository } from '@data/contracts'
 
 export class AccountPrismaRepository
   implements AddAccountRepository, ExistsAccountRepository {
@@ -19,7 +19,6 @@ export class AccountPrismaRepository
     const userExists = await prisma.account.findUnique({
       where: { email },
     })
-
     return !!userExists
   }
 }

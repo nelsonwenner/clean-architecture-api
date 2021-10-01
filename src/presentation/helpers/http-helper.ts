@@ -3,12 +3,12 @@ import { ServerError } from '../errors'
 
 export const forbidden = (error: Error): HttpResponse => ({
   statusCode: 403,
-  body: error,
+  body: { error: error.message },
 })
 
 export const badRequest = (error: Error): HttpResponse => ({
   statusCode: 400,
-  body: error,
+  body: { error: error.message },
 })
 
 export const serverError = (error: Error): HttpResponse => ({

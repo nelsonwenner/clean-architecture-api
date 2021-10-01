@@ -24,7 +24,7 @@ prisma
     const app = (await import('./config/app')).default
     app.listen(process.env.SERVER_PORT, () =>
       console.log(
-        `Server start with successfully on PORT ${process.env.SERVER_PORT}`
+        `\nServer start with successfully on PORT ${process.env.SERVER_PORT}`
       )
     )
   })

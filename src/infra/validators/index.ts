@@ -1,1 +1,1 @@
-export * from './email-validator-adapter'
+export * from './field-validator-adapter'
