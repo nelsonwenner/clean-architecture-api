@@ -61,11 +61,17 @@ $ npm install
 ```
 2. Setup database
 ```shell
+/* Create `.env` of the system */
+$ cp .env.example .env
+
+/* Run database with docker */
 $ docker-compose up -d
+
+/* Setting database, how create tables */
+$ npm run prisma:push
 ```
 3. Start the application
 ```shell
-$ npm run build
 $ npm run dev
 ```
   * Open backend, the host [localhost:3333](http://localhost:3333)
