@@ -1,48 +1,39 @@
-import { HttpRequest, HttpResponse, Controller } from '../contracts'
-import { badRequest, serverError, ok } from '../helpers/http-helper'
-import { MissingParamError, InvalidParamError } from '../errors'
-import { AddAccount } from '../../domain/usecases/add-account'
-import { EmailValidator } from '../../validation/contracts'
+import { HttpRequest, HttpResponse, Controller } from '@presentation/contracts'
+import { badRequest, serverError, ok } from '@presentation/helpers/http-helper'
+import { AddAccount, ExistsAccount } from '@domain/usecases'
+import { EmailInUseError } from '@presentation/errors'
+import { Validation } from '@data/contracts/validation'
 
 export class SignUpController implements Controller {
-  private readonly emailValidator: EmailValidator
-  private readonly addAccount: AddAccount
-
-  constructor(emailValidator: EmailValidator, addAccount: AddAccount) {
-    this.emailValidator = emailValidator
-    this.addAccount = addAccount
-  }
+  constructor(
+    private readonly validation: Validation,
+    private readonly addAccount: AddAccount,
+    private readonly existsAccount: ExistsAccount
+  ) {}
 
   async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
-      const requiredFields = [
-        'name',
-        'email',
-        'password',
-        'passwordConfirmation',
-      ]
-      for (const field of requiredFields) {
-        if (!httpRequest.body[field]) {
-          return badRequest(new MissingParamError(field))
-        }
-      }
-      const { name, email, password, passwordConfirmation } = httpRequest.body
+      const { name, email, password } = httpRequest.body
 
-      if (password !== passwordConfirmation) {
-        return badRequest(new InvalidParamError('passwordConfirmation'))
+      const error = this.validation.validate(httpRequest.body)
+      if (error) {
+        return badRequest(error)
       }
-      const isValid = this.emailValidator.isValid(email)
-      if (!isValid) {
-        return badRequest(new InvalidParamError('email'))
+
+      const exists = await this.existsAccount.exists(email)
+
+      if (exists) {
+        return badRequest(new EmailInUseError())
       }
-      const account = await this.addAccount.add({
+
+      const { id } = await this.addAccount.add({
         name,
         email,
         password,
       })
-      return ok(account)
+      return ok({ id: id })
     } catch (error) {
-      return serverError()
+      return serverError(error)
     }
   }
 }

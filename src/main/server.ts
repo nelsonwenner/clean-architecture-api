@@ -1,5 +1,4 @@
-import 'module-alias/register'
-import { MongoHelper } from '@/infra/db/mongodb/helpers/mongo-helper'
+import { prisma } from '@infra/db/prisma/client'
 import 'dotenv/config'
 
 enum ExitStatus {
@@ -19,12 +18,13 @@ process.on('uncaughtException', (error) => {
   process.exit(ExitStatus.Failure)
 })
 
-MongoHelper.connect(process.env.MONGO_URL)
+prisma
+  .$connect()
   .then(async () => {
     const app = (await import('./config/app')).default
     app.listen(process.env.SERVER_PORT, () =>
       console.log(
-        `Server start with successfully on PORT ${process.env.SERVER_PORT}`
+        `\nServer start with successfully on PORT ${process.env.SERVER_PORT}`
       )
     )
   })

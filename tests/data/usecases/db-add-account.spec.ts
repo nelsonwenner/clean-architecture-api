@@ -1,10 +1,6 @@
-import {
-  Encrypter,
-  AddAccountModel,
-  AccountModel,
-  AddAccountRepository,
-} from '@/data/usecases/add-account/db-add-account-contracts'
-import { DbAddAccount } from '@/data/usecases/add-account/db-add-account'
+import { Encrypter, AddAccountRepository } from '@data/contracts'
+import { DbAddAccount } from '@data/usecases/'
+import { AddAccount } from '@domain/usecases'
 
 interface SutTypes {
   sut: DbAddAccount
@@ -23,7 +19,7 @@ const makeEncrypter = (): Encrypter => {
 
 const makeAddAccountRepository = (): AddAccountRepository => {
   class AddAccountRepositoryStub implements AddAccountRepository {
-    async add(accountData: AddAccountModel): Promise<AccountModel> {
+    async add(accountData: AddAccount.Params): Promise<AddAccount.Result> {
       const fakeAccount = {
         id: 'valid_id',
         name: 'valid_name',
