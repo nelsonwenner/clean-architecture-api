@@ -12,6 +12,7 @@ model Account {
   name       String?
   email      String   @unique
   password   String
+  accessToken String?  @unique
   created_at DateTime @default(now())
   updated_at DateTime @default(now()) @updatedAt
 }
