@@ -1,5 +1,5 @@
 import { AccountPrismaRepository } from '@infra/db/prisma/account-repository/account'
-import { BcryptAdapter } from '@infra/criptography/bcrypt-adapter'
+import { BcryptAdapter } from '@infra/criptography'
 import { DbAddAccount } from '@data/usecases'
 import { AddAccount } from '@domain/usecases'
 
