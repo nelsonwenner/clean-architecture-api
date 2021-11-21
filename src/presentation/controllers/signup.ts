@@ -1,4 +1,4 @@
-import { HttpRequest, HttpResponse, Controller } from '@presentation/contracts'
+import { HttpResponse, Controller } from '@presentation/contracts'
 import { badRequest, serverError, ok } from '@presentation/helpers/http-helper'
 import { AddAccount, ExistsAccount } from '@domain/usecases'
 import { EmailInUseError } from '@presentation/errors'
@@ -11,11 +11,16 @@ export class SignUpController implements Controller {
     private readonly existsAccount: ExistsAccount
   ) {}
 
-  async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
+  async handle(request: SignUpController.Request): Promise<HttpResponse> {
     try {
-      const { name, email, password } = httpRequest.body
+      const { name, email, password } = request
 
-      const error = this.validation.validate(httpRequest.body)
+      const error = this.validation.validate({
+        name,
+        email,
+        password,
+      })
+
       if (error) {
         return badRequest(error)
       }
@@ -35,5 +40,13 @@ export class SignUpController implements Controller {
     } catch (error) {
       return serverError(error)
     }
+  }
+}
+
+export namespace SignUpController {
+  export type Request = {
+    name: string
+    email: string
+    password: string
   }
 }
