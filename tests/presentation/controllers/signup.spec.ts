@@ -54,62 +54,33 @@ const makeSut = (): SutTypes => {
   }
 }
 
+const mockRequest = (): SignUpController.Request => {
+  return {
+    name: 'any_name',
+    email: 'any_email@gmail.com',
+    password: 'any_password',
+  }
+}
+
 describe('SignUp Controller', () => {
-  it('Should return 400 if no name is provided', async () => {
-    const { sut } = makeSut()
-    const httpRequest = {
-      body: {
-        email: 'any_email@gmail.com',
-        password: 'any_password',
-      },
-    }
-    const httpResponse = await sut.handle(httpRequest)
+  it('Should return 400 if Validation returns an error', async () => {
+    const { sut, fieldValidationStub } = makeSut()
+    jest.spyOn(fieldValidationStub, 'validate').mockImplementationOnce(() => {
+      return new Error('name is a required')
+    })
+    const httpResponse = await sut.handle(mockRequest())
     expect(httpResponse.statusCode).toBe(400)
     expect(httpResponse.body).toEqual(
       badRequest(new Error('name is a required')).body
     )
   })
 
-  it('Should return 400 if no email is provided', async () => {
-    const { sut } = makeSut()
-    const httpRequest = {
-      body: {
-        name: 'any_name',
-        password: 'any_password',
-      },
-    }
-    const httpResponse = await sut.handle(httpRequest)
-    expect(httpResponse.statusCode).toBe(400)
-    expect(httpResponse.body).toEqual(
-      badRequest(new Error('email is a required')).body
-    )
-  })
-
-  it('Should return 400 if no password is provided', async () => {
-    const { sut } = makeSut()
-
-    const httpRequest = {
-      body: {
-        name: 'any_name',
-        email: 'any_email@gmail.com',
-      },
-    }
-    const httpResponse = await sut.handle(httpRequest)
-    expect(httpResponse.statusCode).toBe(400)
-    expect(httpResponse.body).toEqual(
-      badRequest(new Error('password is a required')).body
-    )
-  })
-
   it('Should return 400 if an invalid email is provided', async () => {
     const { sut } = makeSut()
-
     const httpRequest = {
-      body: {
-        name: 'any_name',
-        email: 'invalid_emaicom',
-        password: 'any_password',
-      },
+      name: 'any_name',
+      email: 'invalid_emaicom',
+      password: 'any_password',
     }
     const httpResponse = await sut.handle(httpRequest)
     expect(httpResponse.statusCode).toBe(400)
@@ -120,19 +91,10 @@ describe('SignUp Controller', () => {
 
   it('Should return 500 if AddAccount throws', async () => {
     const { sut, addAccountStub } = makeSut()
-
     jest.spyOn(addAccountStub, 'add').mockImplementationOnce(async () => {
       return new Promise((resolve, reject) => reject(new Error('error')))
     })
-
-    const httpRequest = {
-      body: {
-        name: 'any_name',
-        email: 'any_email@gmail.com',
-        password: 'any_password',
-      },
-    }
-    const httpResponse = await sut.handle(httpRequest)
+    const httpResponse = await sut.handle(mockRequest())
     expect(httpResponse.statusCode).toBe(500)
     expect(httpResponse.body).toEqual(new ServerError('error'))
   })
@@ -140,14 +102,7 @@ describe('SignUp Controller', () => {
   it('Should call AddAccount with correct values', async () => {
     const { sut, addAccountStub } = makeSut()
     const addSpy = jest.spyOn(addAccountStub, 'add')
-    const httpRequest = {
-      body: {
-        name: 'any_name',
-        email: 'any_email@gmail.com',
-        password: 'any_password',
-      },
-    }
-    await sut.handle(httpRequest)
+    await sut.handle(mockRequest())
     expect(addSpy).toHaveBeenCalledWith({
       name: 'any_name',
       email: 'any_email@gmail.com',
@@ -160,14 +115,7 @@ describe('SignUp Controller', () => {
     jest.spyOn(existsAccountStub, 'exists').mockImplementationOnce(async () => {
       return new Promise((resolve, reject) => resolve(true))
     })
-    const httpRequest = {
-      body: {
-        name: 'any_name',
-        email: 'any_email@gmail.com',
-        password: 'any_password',
-      },
-    }
-    const httpResponse = await sut.handle(httpRequest)
+    const httpResponse = await sut.handle(mockRequest())
     expect(httpResponse.statusCode).toBe(400)
     expect(httpResponse.body).toEqual(
       badRequest(new Error('The received email is already in use')).body
@@ -176,14 +124,7 @@ describe('SignUp Controller', () => {
 
   it('Should return 200 if valid data is provided', async () => {
     const { sut } = makeSut()
-    const httpRequest = {
-      body: {
-        name: 'valid_name',
-        email: 'valid_email@gmail.com',
-        password: 'valid_password',
-      },
-    }
-    const httpResponse = await sut.handle(httpRequest)
+    const httpResponse = await sut.handle(mockRequest())
     expect(httpResponse.statusCode).toBe(200)
     expect(httpResponse.body).toEqual({
       id: 'valid_id',

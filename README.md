@@ -25,7 +25,6 @@
     * Factory
     * Adapter
     * Composite
-    * Decorator
     * Proxy
     * Dependency Injection
     * Abstract Server

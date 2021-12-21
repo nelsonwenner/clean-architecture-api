@@ -7,6 +7,12 @@ export interface AccountModel {
   password: string
 }
 
+export interface AccountModelResult {
+  id: string
+  name: string
+  email: string
+}
+
 export class Account extends Entity<AccountModel> {
   get name(): string {
     return this.props.name
