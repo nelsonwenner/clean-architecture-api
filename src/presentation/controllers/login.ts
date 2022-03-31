@@ -11,14 +11,14 @@ import {
 export class LoginController implements Controller {
   constructor(
     private readonly authentication: Authentication,
-    private readonly Validation: Validation
+    private readonly validation: Validation
   ) {}
 
   async handle(request: LoginController.Request): Promise<HttpResponse> {
     try {
       const { email, password } = request
 
-      const error = this.Validation.validate({
+      const error = this.validation.validate({
         email,
         password,
       })
