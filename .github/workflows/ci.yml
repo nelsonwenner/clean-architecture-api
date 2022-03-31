@@ -1,0 +1,50 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+  pull_request: []
+
+jobs:
+  tests:
+    name: Clean Architecture Api
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [14.x]
+
+    services:
+      postgres:
+        image: postgres:11-alpine
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        env:
+          POSTGRES_USER: root
+          POSTGRES_PASSWORD: root
+          POSTGRES_DB: dev
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Node Setup
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install dependencies
+        run: npm install
+      
+      - name: Environment Variable Setup
+        run: cp .env.example .env
+
+      - name: Set up database
+        run: npm run prisma:push
+
+      - name: Run tests
+        run: npm run test

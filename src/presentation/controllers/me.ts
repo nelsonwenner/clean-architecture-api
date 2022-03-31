@@ -1,6 +1,6 @@
+import { noContent, serverError, ok } from '@presentation/helpers/http-helper'
 import { HttpResponse, Controller } from '@presentation/contracts'
 import { LoadAccount } from '@domain/usecases'
-import { noContent, serverError, ok } from '@presentation/helpers/http-helper'
 
 export class MeController implements Controller {
   constructor(private readonly loadAccount: LoadAccount) {}
